@@ -1,9 +1,10 @@
-﻿using OpenAIDotnet.Models.Response;
+﻿using OpenAIDotnet.Models.Request;
+using OpenAIDotnet.Models.Response;
 
 namespace OpenAIDotnet
 {
     public interface IOpenAIClient
     {
-        Task<CreateCompletionResponse> CreateCompletion();
+        Task<CreateCompletionResponse> CreateCompletion(CreateCompletionRequest createCompletion);
     }
 }

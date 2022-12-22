@@ -1,6 +1,9 @@
-﻿using OpenAIDotnet.Models.Response;
+﻿using OpenAIDotnet.Models.Request;
+using OpenAIDotnet.Models.Response;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OpenAIDotnet
 {
@@ -17,12 +20,23 @@ namespace OpenAIDotnet
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
         }
 
-        public async Task<CreateCompletionResponse> CreateCompletion()
+        public async Task<CreateCompletionResponse> CreateCompletion(CreateCompletionRequest createCompletion)
         {
-            var response = await httpClient.GetAsync("completions");
+            // Just hardcode the model for now
+            createCompletion.Model = "text-davinci-003";
+
+            var serializerOptions = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
+
+            var body = JsonSerializer.Serialize(createCompletion, serializerOptions);
+            var request = new StringContent(body, System.Text.Encoding.UTF8, MediaTypeNames.Application.Json);
+            var response = await httpClient.PostAsync("completions", request);
+
             response.EnsureSuccessStatusCode();
             var stream = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<CreateCompletionResponse>(stream);
+            return await JsonSerializer.DeserializeAsync<CreateCompletionResponse>(stream, serializerOptions);
         }
     }
 }
