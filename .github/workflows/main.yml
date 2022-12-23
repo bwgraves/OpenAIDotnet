@@ -16,7 +16,7 @@ jobs:
 
     env:
       BUILD_CONFIG: 'Release'
-      SOLUTION: '/src/OpenAIDotnet.sln'
+      SOLUTION: './src/OpenAIDotnet.sln'
 
     runs-on: ubuntu-latest
 
