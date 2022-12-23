@@ -8,5 +8,5 @@ This package is published to NuGet under the name OpenAIDotnet. This is probably
 
 ### Creating a client
 Creating a new client instance can be done like so:
-  var apiKey = "sk-1234567etc";
-  var client = new OpenAIClient(apiKey);
+    var apiKey = "sk-1234567etc";
+    var client = new OpenAIClient(apiKey);
